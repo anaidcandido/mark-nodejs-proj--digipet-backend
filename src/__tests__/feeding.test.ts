@@ -10,12 +10,12 @@ import app from "../server";
  *  2. feeding a digipet leads to decreasing discipline
  */
 
-describe.skip("When a user feeds a digipet repeatedly, its nutrition increases by 10 each time until it eventually maxes out at 100", () => {
+describe("When a user feeds a digipet repeatedly, its nutrition increases by 5 each time until it eventually maxes out at 100", () => {
   beforeAll(() => {
     // setup: give an initial digipet
     const startingDigipet: Digipet = {
       happiness: 60,
-      nutrition: 75,
+      nutrition: 70,
       discipline: 60,
     };
     setDigipet(startingDigipet);
@@ -24,17 +24,18 @@ describe.skip("When a user feeds a digipet repeatedly, its nutrition increases b
   test("GET /digipet informs them that they have a digipet with expected stats", async () => {
     const response = await supertest(app).get("/digipet");
     expect(response.body.message).toMatch(/your digipet/i);
-    expect(response.body.digipet).toHaveProperty("nutrition", 75);
+    expect(response.body.digipet).toHaveProperty("nutrition", 70);
   });
 
   test("1st GET /digipet/feed informs them about the feed and shows increased nutrition for digipet", async () => {
     const response = await supertest(app).get("/digipet/feed");
-    expect(response.body.digipet).toHaveProperty("nutrition", 85);
+    expect(response.body.message).toMatch(/feed/i);
+    expect(response.body.digipet).toHaveProperty("nutrition", 80);
   });
 
   test("2nd GET /digipet/feed shows continued stats change", async () => {
     const response = await supertest(app).get("/digipet/feed");
-    expect(response.body.digipet).toHaveProperty("nutrition", 95);
+    expect(response.body.digipet).toHaveProperty("nutrition", 90);
   });
 
   test("3rd GET /digipet/feed shows nutrition hitting a ceiling of 100", async () => {
@@ -48,7 +49,7 @@ describe.skip("When a user feeds a digipet repeatedly, its nutrition increases b
   });
 });
 
-describe.skip("When a user feeds a digipet repeatedly, its discipline decreases by 5 each time until it eventually floors out at 0", () => {
+describe("When a user feeds a digipet repeatedly, its discipline decreases by 5 each time until it eventually floors out at 0", () => {
   beforeAll(() => {
     // setup: give an initial digipet
     const startingDigipet: Digipet = {
@@ -86,7 +87,7 @@ describe.skip("When a user feeds a digipet repeatedly, its discipline decreases 
   });
 });
 
-describe.skip("When a digipet is maxed out on nutrition, it is still possible to feed it and decrease its discipline", () => {
+describe("When a digipet is maxed out on nutrition, it is still possible to feed it and decrease its discipline", () => {
   beforeAll(() => {
     // setup: give an initial digipet
     const startingDigipet: Digipet = {
