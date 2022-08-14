@@ -112,14 +112,14 @@ app.get("/digipet/ignore", (req, res) => {
       message:
         "You don't have a digipet! Try hatching one with /digipet/hatch",
     });
-  } else if (digipet.happiness > 10 && digipet.nutrition >10 && digipet.discipline > 10) {
+  } else if (digipet.happiness > 10 && digipet.nutrition > 10 && digipet.discipline > 10) {
     ignoreDigipet()
     res.json({
       message:
         `We have ignored your digipet, all stats were decreased 10 by now`,
         digipet: getDigipet()
     });
-  } else if (digipet.happiness < 10 && digipet.nutrition < 10 && digipet.discipline < 10) {
+  } else {
     ignoreDigipet()
     res.json({
       message:
